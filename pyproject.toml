@@ -1,0 +1,14 @@
+[project]
+name = "OtherWorldBit"
+version = "1.0.0"
+description = "异世界天体监测机器人"
+authors = [
+    {name = "Abjust", email = "2533898108@qq.com"},
+]
+dependencies = [
+    "graia-ariadne[standard]>=0.11.7",
+]
+requires-python = ">=3.11,<4.0"
+readme = "README.md"
+license = {text = "AGPL-3.0"}
+
