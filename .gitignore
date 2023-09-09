@@ -163,3 +163,5 @@ cython_debug/
 
 # 配置文件
 config.txt
+# 测算数据
+data.json

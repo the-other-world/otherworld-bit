@@ -4,11 +4,13 @@ from graia.ariadne.message.parser.base import MatchContent
 from graia.ariadne.model import Group
 from graia.saya import Channel
 from graia.saya.builtins.broadcast.schema import ListenerSchema
+from graia.saya.channel import ChannelMeta
 
-channel = Channel.current()
-channel.name("显示版本")
-channel.description("显示OtherWorldBit的当前版本")
-channel.author("Abjust")
+
+channel = Channel[ChannelMeta].current()
+channel.meta['name'] = "显示版本"
+channel.meta['description'] = "显示OtherWorldBit的当前版本"
+channel.meta['author'] = "Abjust"
 
 
 @channel.use(
@@ -20,7 +22,7 @@ channel.author("Abjust")
 async def display(app: Ariadne, group: Group):
     await app.send_message(
         group,
-        "机器人版本：OtherWorldBit 1.0.0\n"
-        "上次更新日期：2023/8/7\n"
-        "更新内容：OtherWorldBit 初始版本"
+        "机器人版本：OtherWorldBit 1.0.1\n"
+        "上次更新日期：2023/9/9\n"
+        "更新内容：新增!gotrend指令"
     )

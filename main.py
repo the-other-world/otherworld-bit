@@ -1,13 +1,15 @@
-# OtherWorldBit，异世界天体监测机器人
+# OtherWorldBit，异世界天体气象监测机器人
 
 # Copyright(C) 2023 Abjust 版权所有。
 
-# 本程序是自由软件：你可以根据自由软件基金会发布的GNU Affero通用公共许可证的条款，即许可证的第3版或（您选择的）任何后来的版本重新发布它和/或修改它。
+# 本程序是自由软件：你可以根据自由软件基金会发布的GNU Affero通用公共许可证的条款，即许可证的第3版或（您选择的）任何后来的版本重新发布它和/或修改它。。
 
 # 本程序的发布是希望它能起到作用。但没有任何保证；甚至没有隐含的保证。本程序的分发是希望它是有用的，但没有任何保证，甚至没有隐含的适销对路或适合某一特定目的的保证。 参见 GNU Affero通用公共许可证了解更多细节。
 
 # 您应该已经收到了一份GNU Affero通用公共许可证的副本。 如果没有，请参见<https://www.gnu.org/licenses/>。
 
+
+import json
 from creart import create
 from loguru import logger
 from graia.saya import Saya
@@ -23,6 +25,19 @@ import os.path
 # 初始化
 botqq = 0
 verifykey = ""
+if not os.path.exists("data.json"):
+    obj = {
+        "collected_at": 946656000,
+        "high_temp_days": 0,
+        "day_temp": 0.00,
+        "day_hum": 0.00,
+        "cycle_0": 946656000,
+        "cycle_now": 946656000,
+        "cycle_temp": 0.00
+    }
+    jobj = json.dumps(obj, indent=4)
+    with open("data.json", "w") as outfile:
+        outfile.write(jobj)
 if not os.path.exists("config.txt"):
     lines = ["bot_qq=", "verify_key="]
     f = open("config.txt", "w")
