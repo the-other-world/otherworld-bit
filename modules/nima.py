@@ -5,8 +5,8 @@ from graia.ariadne.util.saya import listen
 from graia.saya import Channel
 
 channel = Channel.current()
-channel.name("你妈")
-channel.description("在有人找机器人私聊的时候，你妈")
+channel.name("如来")
+channel.description("在有人找机器人私聊的时候，如来")
 channel.author("ltzXiaoYanMo")
 
 rutext = """穿越者认为，异世界万法的那个源头
