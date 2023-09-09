@@ -22,7 +22,7 @@ channel.meta['author'] = "Abjust"
 async def display(app: Ariadne, group: Group):
     await app.send_message(
         group,
-        "机器人版本：OtherWorldBit 1.0.1\n"
+        "机器人版本：OtherWorldBit 1.0.2\n"
         "上次更新日期：2023/9/9\n"
-        "更新内容：新增!gotrend指令"
+        "更新内容：移除了Herobrine（？）"
     )
