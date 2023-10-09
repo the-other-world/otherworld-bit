@@ -6,8 +6,8 @@ from graia.saya import Channel
 from graia.saya.channel import ChannelMeta
 
 channel = Channel[ChannelMeta].current()
-channel.meta['name'] = "如来"
-channel.meta['description'] = "在有人找机器人私聊的时候，如来"
+channel.meta['name'] = "nima"
+channel.meta['description'] = "在有人找机器人私聊的时候，给他介绍我们异世界的规矩（划）"
 channel.meta['author'] = "ltzXiaoYanMo"
 
 rutext = """穿越者认为，异世界万法的那个源头
