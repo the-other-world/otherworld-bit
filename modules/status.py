@@ -15,6 +15,7 @@ channel.meta['name'] = "运行状态"
 channel.meta['description'] = "获取OtherWorldBit运行状态"
 channel.meta['author'] = "Abjust"
 
+
 # 监听群消息（!status）
 @channel.use(
     ListenerSchema(
@@ -23,7 +24,7 @@ channel.meta['author'] = "Abjust"
     )
 )
 # 收到消息，检查信息消息并发送
-async def display(app: Ariadne, group: Group):
+async def status(app: Ariadne, group: Group):
     await app.send_message(
         group,
         "OtherWorldBit 运行信息\n"

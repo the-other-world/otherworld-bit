@@ -18,10 +18,10 @@ channel.meta['author'] = "Abjust"
         decorators=[MatchContent("版本")]
     )
 )
-async def display(app: Ariadne, group: Group):
+async def version(app: Ariadne, group: Group):
     await app.send_message(
         group,
-        "机器人版本：OtherWorldBit 1.0.3\n"
-        "上次更新日期：2023/10/9\n"
-        "更新内容：引入温室效应和周期浮动"
+        "机器人版本：OtherWorldBit 1.0.4\n"
+        "上次更新日期：2023/10/10\n"
+        "更新内容：新增MBTI解释"
     )

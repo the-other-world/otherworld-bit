@@ -7,7 +7,7 @@ import numpy as np
 import calc.owct
 
 BASELINE_TEMP = 15
-GREENHOUSE_INDEX = 1 + (datetime.utcnow().year - 1906) * 0.0005 if datetime.utcnow().year < 2100 else 2.05
+GREENHOUSE_INDEX = 1 + (datetime.utcnow().year - 1906) * 0.0005 if datetime.utcnow().year < 2100 else 1.097
 SEASONS = [
     [3, 4, 5],
     [6, 7, 8],
@@ -26,7 +26,7 @@ def get_temp():
     print(now)
     for season in SEASONS:
         if now.month in season:
-            avg_temp = int(BASELINE_TEMP * GREENHOUSE_INDEX * TEMP_COEFFICIENT[SEASONS.index(season)])
+            avg_temp = round(BASELINE_TEMP * GREENHOUSE_INDEX * TEMP_COEFFICIENT[SEASONS.index(season)], 2)
             day_temp = random.uniform(avg_temp - STD_DEVIATION, avg_temp + STD_DEVIATION)
             f = open('data.json')
             data = json.load(f)
@@ -42,7 +42,7 @@ def get_temp():
                 current_cycle = int(np.floor((now.hour - 8) / 3))
                 data["cycle_now"] = np.floor(utcnow.timestamp() - (np.floor(utcnow.timestamp()) % 3600))
                 data["cycle_temp"] = data["day_temp"] + (
-                            random.uniform(0.8, 1.2) * HOUR_OFFSET[current_cycle]) + random.uniform(
+                        random.uniform(0.8, 1.2) * HOUR_OFFSET[current_cycle]) + random.uniform(
                     0 - HOUR_FLUCTUATION, HOUR_FLUCTUATION)
             jobj = json.dumps(data, indent=4)
             with open("data.json", "w") as outfile:

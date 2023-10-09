@@ -24,7 +24,7 @@ channel.meta['author'] = "Abjust"
         decorators=[MatchContent("!info")]
     )
 )
-async def display(app: Ariadne, group: Group):
+async def planet_info(app: Ariadne, group: Group):
     now = owct.get_time()
     utcnow = datetime.now(timezone.utc)
     now_temp = temp.get_temp()

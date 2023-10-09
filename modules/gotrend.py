@@ -22,7 +22,7 @@ channel.meta['author'] = "Abjust"
         decorators=[DetectPrefix("!gotrend")]
     )
 )
-async def display(app: Ariadne, group: Group, message: MessageChain = DetectPrefix("!gotrend")):
+async def go_trend(app: Ariadne, group: Group, message: MessageChain = DetectPrefix("!gotrend")):
     url = "https://goproxy.cn/stats/trends/latest"
     response = requests.get(url)
     if response.status_code == 200:
