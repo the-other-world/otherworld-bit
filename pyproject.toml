@@ -3,15 +3,17 @@ name = ""
 version = ""
 description = ""
 authors = [
-    {name = "Abjust", email = "2533898108@qq.com"},
+    { name = "Abjust", email = "2533898108@qq.com" },
 ]
 dependencies = [
     "graia-ariadne[standard]>=0.11.7",
     "ntplib>=0.4.0",
     "numpy>=1.25.2",
     "requests>=2.31.0",
+    "py-cpuinfo>=9.0.0",
+    "psutil>=5.9.5",
 ]
 requires-python = ">=3.11,<4.0"
 readme = "README.md"
-license = {text = "AGPL-3.0"}
+license = { text = "AGPL-3.0" }
 

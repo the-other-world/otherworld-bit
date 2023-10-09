@@ -1,15 +1,14 @@
-import requests
 import json
 
+import requests
+from graia.amnesia.message import MessageChain
 from graia.ariadne.app import Ariadne
 from graia.ariadne.event.message import GroupMessage
-from graia.amnesia.message import MessageChain
 from graia.ariadne.message.parser.base import DetectPrefix
 from graia.ariadne.model import Group
 from graia.saya import Channel
 from graia.saya.builtins.broadcast.schema import ListenerSchema
 from graia.saya.channel import ChannelMeta
-from numpy.core.defchararray import isnumeric
 
 channel = Channel[ChannelMeta].current()
 channel.meta['name'] = "Go趋势"
@@ -42,10 +41,12 @@ async def display(app: Ariadne, group: Group, message: MessageChain = DetectPref
                     await app.send_message(group, "页码无效！（将默认为最后一页）")
             except TypeError:
                 await app.send_message(group, "页码无效！（将默认为第一页）")
+            except ValueError:
+                await app.send_message(group, "页码无效！（将默认为第一页）")
         for i in range(10):
             message_content += (f"\n第 {i + skips * 10 + 1} 名"
-                        f"\n模块路径：{json_dict[i + skips * 10].get('module_path')}"
-                        f"\n下载次数：{json_dict[i + skips * 10].get('download_count')}")
+                                f"\n模块路径：{json_dict[i + skips * 10].get('module_path')}"
+                                f"\n下载次数：{json_dict[i + skips * 10].get('download_count')}")
         await app.send_message(group, message_content)
     else:
         await app.send_message(group, "拉取API失败！")

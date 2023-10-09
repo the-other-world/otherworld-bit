@@ -1,11 +1,13 @@
-from datetime import datetime, timezone
 import json
 import random
+from datetime import datetime, timezone
+
 import numpy as np
 
 import calc.owct
 
 BASELINE_TEMP = 15
+GREENHOUSE_INDEX = 1 + (datetime.utcnow().year - 1906) * 0.0005 if datetime.utcnow().year < 2100 else 2.05
 SEASONS = [
     [3, 4, 5],
     [6, 7, 8],
@@ -15,6 +17,7 @@ SEASONS = [
 TEMP_COEFFICIENT = [1.2, 2.0, 1.0, -0.4]
 STD_DEVIATION = 5
 HOUR_OFFSET = [0, 2, 5, 4, 0, -2, -3, -3]
+HOUR_FLUCTUATION = 0.5
 
 
 def get_temp():
@@ -23,7 +26,7 @@ def get_temp():
     print(now)
     for season in SEASONS:
         if now.month in season:
-            avg_temp = int(BASELINE_TEMP * TEMP_COEFFICIENT[SEASONS.index(season)])
+            avg_temp = int(BASELINE_TEMP * GREENHOUSE_INDEX * TEMP_COEFFICIENT[SEASONS.index(season)])
             day_temp = random.uniform(avg_temp - STD_DEVIATION, avg_temp + STD_DEVIATION)
             f = open('data.json')
             data = json.load(f)
@@ -38,7 +41,9 @@ def get_temp():
             if np.floor(utcnow.timestamp()) - data["cycle_now"] >= 3600:
                 current_cycle = int(np.floor((now.hour - 8) / 3))
                 data["cycle_now"] = np.floor(utcnow.timestamp() - (np.floor(utcnow.timestamp()) % 3600))
-                data["cycle_temp"] = data["day_temp"] + (random.uniform(0.8, 1.2) * HOUR_OFFSET[current_cycle])
+                data["cycle_temp"] = data["day_temp"] + (
+                            random.uniform(0.8, 1.2) * HOUR_OFFSET[current_cycle]) + random.uniform(
+                    0 - HOUR_FLUCTUATION, HOUR_FLUCTUATION)
             jobj = json.dumps(data, indent=4)
             with open("data.json", "w") as outfile:
                 outfile.write(jobj)

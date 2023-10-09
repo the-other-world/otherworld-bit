@@ -6,7 +6,6 @@ from graia.saya import Channel
 from graia.saya.builtins.broadcast.schema import ListenerSchema
 from graia.saya.channel import ChannelMeta
 
-
 channel = Channel[ChannelMeta].current()
 channel.meta['name'] = "显示版本"
 channel.meta['description'] = "显示OtherWorldBit的当前版本"
@@ -22,7 +21,7 @@ channel.meta['author'] = "Abjust"
 async def display(app: Ariadne, group: Group):
     await app.send_message(
         group,
-        "机器人版本：OtherWorldBit 1.0.2\n"
-        "上次更新日期：2023/9/9\n"
-        "更新内容：移除了Herobrine（？）"
+        "机器人版本：OtherWorldBit 1.0.3\n"
+        "上次更新日期：2023/10/9\n"
+        "更新内容：引入温室效应和周期浮动"
     )
