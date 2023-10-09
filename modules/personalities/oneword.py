@@ -14,7 +14,9 @@ channel.meta['name'] = "mbti一言"
 channel.meta['description'] = "mbti一言"
 channel.meta['author'] = "ltzXiaoYanMo"
 
-mbtitext = "https://api.ymbot.top/mbti/oneword.txt"
+text = './data/oneword.txt'
+
+data = random.choice(open(text, encoding='utf-8').readlines()).strip()
 
 @channel.use(
     ListenerSchema(
@@ -25,5 +27,5 @@ mbtitext = "https://api.ymbot.top/mbti/oneword.txt"
 async def mbti_oneword(app: Ariadne, group: Group):
     await app.send_message(
         group,
-        ramdom.choice(requests.get(mbtitext))
+        data
     )
