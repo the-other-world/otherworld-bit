@@ -1,31 +1,40 @@
+from graia.amnesia.message import MessageChain
 from graia.ariadne.app import Ariadne
 from graia.ariadne.event.message import GroupMessage
-from graia.ariadne.message.parser.base import MatchContent
+from graia.ariadne.message.parser.base import DetectPrefix
 from graia.ariadne.model import Group
 from graia.saya import Channel
 from graia.saya.builtins.broadcast.schema import ListenerSchema
 from graia.saya.channel import ChannelMeta
 
-import requests
-import ramdom
+import random
 
 channel = Channel[ChannelMeta].current()
 channel.meta['name'] = "mbti一言"
 channel.meta['description'] = "mbti一言"
 channel.meta['author'] = "ltzXiaoYanMo"
 
-text = './data/oneword.txt'
 
-data = random.choice(open(text, encoding='utf-8').readlines()).strip()
+words = open('./data/oneword.txt', encoding='utf-8').readlines()
+
 
 @channel.use(
     ListenerSchema(
         listening_events=[GroupMessage],
-        decorators=[MatchContent("MBTI一言")]
+        decorators=[DetectPrefix("!oneword")]
     )
 )
-async def mbti_oneword(app: Ariadne, group: Group):
-    await app.send_message(
-        group,
-        data
-    )
+async def mbti_oneword(app: Ariadne, group: Group, message: MessageChain = DetectPrefix("!oneword")):
+    if str(message) != "":
+        for word in words:
+            if word[-5:].strip() == str(message).strip().upper():
+                await app.send_message(
+                    group,
+                    word
+                )
+                break
+    else:
+        await app.send_message(
+            group,
+            words[random.randrange(0, len(words))]
+        )
