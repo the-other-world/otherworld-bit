@@ -21,7 +21,7 @@ channel.meta['author'] = "Abjust"
 async def version(app: Ariadne, group: Group):
     await app.send_message(
         group,
-        "机器人版本：OtherWorldBit 1.0.6\n"
+        "机器人版本：OtherWorldBit 1.0.6-r1\n"
         "上次更新日期：2023/10/11\n"
-        "更新内容：优化了代码（？）"
+        "更新内容：补全了MBTI一言"
     )
