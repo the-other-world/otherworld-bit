@@ -139,14 +139,15 @@ mbti_list = {
     )
 )
 async def mbti(app: Ariadne, group: Group, message: MessageChain = DetectPrefix("!mbti")):
-    if str(message) != "":
-        for x in mbti_list:
-            if str(message).strip().lower() == x:
-                await app.send_message(group, dedent(mbti_list[x]))
-                break
-            elif str(message).strip().lower() not in mbti_list:
-                await app.send_message(group, "找不到关于该MBTI类型的解释！")
-                break
+    if "_oneword" not in str(message):
+        if str(message) != "":
+            for x in mbti_list:
+                if str(message).strip().lower() == x:
+                    await app.send_message(group, dedent(mbti_list[x]))
+                    break
+                elif str(message).strip().lower() not in mbti_list:
+                    await app.send_message(group, "找不到关于该MBTI类型的解释！")
+                    break
 
-    else:
-        await app.send_message(group, "输入!mbti <类型>可查看关于该MBTI类型的解释！")
+        else:
+            await app.send_message(group, "输入!mbti <类型>可查看关于该MBTI类型的解释！")

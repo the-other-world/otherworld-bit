@@ -20,10 +20,10 @@ words = open('./data/oneword.txt', encoding='utf-8').readlines()
 @channel.use(
     ListenerSchema(
         listening_events=[GroupMessage],
-        decorators=[DetectPrefix("!oneword")]
+        decorators=[DetectPrefix("!mbti_oneword")]
     )
 )
-async def mbti_oneword(app: Ariadne, group: Group, message: MessageChain = DetectPrefix("!oneword")):
+async def mbti_oneword(app: Ariadne, group: Group, message: MessageChain = DetectPrefix("!mbti_oneword")):
     if str(message) != "":
         has_word = False
         for word in words:
