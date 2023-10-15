@@ -146,9 +146,9 @@ async def mbti(app: Ariadne, group: Group, message: MessageChain = DetectPrefix(
                 dedent(
                     mbti_list.get(
                         str(message).strip().lower(),
-                        "找不到关于该 MBTI 类型的解释！"
+                        "找不到关于该 MBTI 类型的解释！请检查您的输入是否有误"
                     )
                 )
             )
         else:
-            await app.send_message(group, "输入!mbti <类型>可查看关于该MBTI类型的解释！")
+            await app.send_message(group, "输入!mbti <类型:字符串>可查看关于该MBTI类型的解释！")
