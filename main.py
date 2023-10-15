@@ -11,6 +11,7 @@
 
 import json
 import os.path
+import globalvars
 
 from creart import create
 from graia.ariadne.app import Ariadne
@@ -23,7 +24,6 @@ from graia.saya import Saya
 from loguru import logger
 
 # 初始化
-botqq = 0
 verifykey = ""
 if not os.path.exists("data.json"):
     obj = {
@@ -51,7 +51,7 @@ else:
         split = line.split("=")
         if len(split) == 2:
             if split[0] == "bot_qq":
-                botqq = int(split[1].strip())
+                globalvars.botqq = int(split[1].strip())
             elif split[0] == "verify_key":
                 verifykey = split[1].strip()
 
@@ -59,7 +59,7 @@ else:
 saya = create(Saya)
 app = Ariadne(
     connection=config(
-        botqq,  # 你的机器人的 qq 号
+        globalvars.botqq,  # 你的机器人的 qq 号
         verifykey,  # 填入你的 mirai-api-http 配置中的 verifyKey
         # 以下两行（不含注释）里的 host 参数的地址
         # 是你的 mirai-api-http 地址中的地址与端口
