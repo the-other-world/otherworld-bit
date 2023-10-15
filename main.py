@@ -39,7 +39,7 @@ if not os.path.exists("data.json"):
     with open("data.json", "w") as outfile:
         outfile.write(jobj)
 if not os.path.exists("config.txt"):
-    lines = ["bot_qq=", "verify_key=", "owapi="]
+    lines = ["bot_qq=", "verify_key="]
     f = open("config.txt", "w")
     f.writelines(line + '\n' for line in lines)
     f.close()
@@ -54,8 +54,6 @@ else:
                 botqq = int(split[1].strip())
             elif split[0] == "verify_key":
                 verifykey = split[1].strip()
-            elif split[0] == "owapi":
-                owapi = split[1].strip()
 
 # 启动机器人程序
 saya = create(Saya)
