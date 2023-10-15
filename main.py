@@ -25,7 +25,6 @@ from loguru import logger
 # 初始化
 botqq = 0
 verifykey = ""
-owapi = ""
 if not os.path.exists("data.json"):
     obj = {
         "collected_at": 946656000,
