@@ -47,15 +47,23 @@ e人禁止穿越，消极古怪抽象虚无，自言自语，虫洞不对外开�
 那没法说嘛！
 所以才有了异世界什么，穿越！""".split('\n')
 
-index = 0
+index = []
 
 
 async def send_ru(app: Ariadne, sender: Member or Friend):
     global index
-    await app.send_message(sender, rutext[index])
-    index += 1
-    if index > len(rutext) - 1:
-        index = 0
+    ishere = False
+    for x in index:
+        if x[0] == sender:
+            if x[1] > len(rutext) - 1:
+                x[1] = 0
+            await app.send_message(sender, rutext[x[1]])
+            x[1] += 1
+            ishere = True
+            break
+    if not ishere:
+        await app.send_message(sender, rutext[0])
+        index.append([sender, 1])
 
 
 @listen(TempMessage)

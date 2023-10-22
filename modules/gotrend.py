@@ -4,6 +4,7 @@ import requests
 from graia.amnesia.message import MessageChain
 from graia.ariadne.app import Ariadne
 from graia.ariadne.event.message import GroupMessage
+from graia.ariadne.message.element import Plain, At
 from graia.ariadne.message.parser.base import DetectPrefix
 from graia.ariadne.model import Group
 from graia.saya import Channel
@@ -22,7 +23,7 @@ channel.meta['author'] = "Abjust"
         decorators=[DetectPrefix("!gotrend")]
     )
 )
-async def go_trend(app: Ariadne, group: Group, message: MessageChain = DetectPrefix("!gotrend")):
+async def go_trend(app: Ariadne, event: GroupMessage, group: Group, message: MessageChain = DetectPrefix("!gotrend")):
     url = "https://goproxy.cn/stats/trends/latest"
     response = requests.get(url)
     if response.status_code == 200:
@@ -35,18 +36,48 @@ async def go_trend(app: Ariadne, group: Group, message: MessageChain = DetectPre
                 skips = int(str(message).strip()) - 1
                 if skips < 0:
                     skips = 0
-                    await app.send_message(group, "页码无效！（将默认为第一页）")
+                    await app.send_message(group,
+                                           MessageChain([
+                                               At(event.sender),
+                                               Plain("\n"),
+                                               Plain("页码无效！（将默认为第一页）")
+                                           ]))
                 elif skips > 99:
                     skips = 99
-                    await app.send_message(group, "页码无效！（将默认为最后一页）")
+                    await app.send_message(group,
+                                           MessageChain([
+                                               At(event.sender),
+                                               Plain("\n"),
+                                               Plain("页码无效！（将默认为最后一页）")
+                                           ]))
             except TypeError:
-                await app.send_message(group, "页码无效！（将默认为第一页）")
+                await app.send_message(group,
+                                       MessageChain([
+                                           At(event.sender),
+                                           Plain("\n"),
+                                           Plain("页码无效！（将默认为第一页）")
+                                       ]))
             except ValueError:
-                await app.send_message(group, "页码无效！（将默认为第一页）")
+                await app.send_message(group,
+                                       MessageChain([
+                                           At(event.sender),
+                                           Plain("\n"),
+                                           Plain("页码无效！（将默认为第一页）")
+                                       ]))
         for i in range(10):
             message_content += (f"\n第 {i + skips * 10 + 1} 名"
                                 f"\n模块路径：{json_dict[i + skips * 10].get('module_path')}"
                                 f"\n下载次数：{json_dict[i + skips * 10].get('download_count')}")
-        await app.send_message(group, message_content)
+        await app.send_message(group,
+                               MessageChain([
+                                   At(event.sender),
+                                   Plain("\n"),
+                                   Plain(message_content)
+                               ]))
     else:
-        await app.send_message(group, "拉取API失败！")
+        await app.send_message(group,
+                               MessageChain([
+                                   At(event.sender),
+                                   Plain("\n"),
+                                   Plain("拉取API失败！")
+                               ]))

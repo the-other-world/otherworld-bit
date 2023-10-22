@@ -1,9 +1,9 @@
 {
-    "collected_at": 1697328000.0,
-    "high_temp_days": 0,
-    "day_temp": 17.24918551276467,
-    "day_hum": 0.0,
-    "cycle_0": 1697356800.0,
-    "cycle_now": 1697371200.0,
-    "cycle_temp": 17.170103235357473
+  "collected_at": 1697932800.0,
+  "high_temp_days": 0,
+  "day_temp": 20.225004631346643,
+  "day_hum": 0.0,
+  "cycle_0": 1697961600.0,
+  "cycle_now": 1697968800.0,
+  "cycle_temp": 21.97665496906828
 }

@@ -11,7 +11,6 @@
 
 import json
 import os.path
-import globalvars
 
 from creart import create
 from graia.ariadne.app import Ariadne
@@ -22,6 +21,8 @@ from graia.ariadne.connection.config import (
 )
 from graia.saya import Saya
 from loguru import logger
+
+import globalvars
 
 # 初始化
 verifykey = ""

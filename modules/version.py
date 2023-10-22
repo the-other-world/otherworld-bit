@@ -1,5 +1,7 @@
+from graia.amnesia.message import MessageChain
 from graia.ariadne.app import Ariadne
 from graia.ariadne.event.message import GroupMessage
+from graia.ariadne.message.element import At, Plain
 from graia.ariadne.message.parser.base import MatchContent
 from graia.ariadne.model import Group
 from graia.saya import Channel
@@ -18,10 +20,14 @@ channel.meta['author'] = "Abjust"
         decorators=[MatchContent("版本")]
     )
 )
-async def version(app: Ariadne, group: Group):
+async def version(app: Ariadne, event: GroupMessage, group: Group):
     await app.send_message(
         group,
-        "机器人版本：OtherWorldBit 1.0.9\n"
-        "上次更新日期：2023/10/15\n"
-        "更新内容：新增祖安功能"
+        MessageChain([
+            At(event.sender),
+            Plain("\n"),
+            Plain("机器人版本：OtherWorldBit 1.0.10\n"
+                  "上次更新日期：2023/10/22\n"
+                  "更新内容：新增Tritype解释，优化代码，优化如来功能")
+        ])
     )

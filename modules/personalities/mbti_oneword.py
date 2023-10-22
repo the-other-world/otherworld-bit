@@ -3,6 +3,7 @@ import random
 from graia.amnesia.message import MessageChain
 from graia.ariadne.app import Ariadne
 from graia.ariadne.event.message import GroupMessage
+from graia.ariadne.message.element import At, Plain
 from graia.ariadne.message.parser.base import DetectPrefix
 from graia.ariadne.model import Group
 from graia.saya import Channel
@@ -23,7 +24,8 @@ words = open('./data/oneword.txt', encoding='utf-8').readlines()
         decorators=[DetectPrefix("!mbti_oneword")]
     )
 )
-async def mbti_oneword(app: Ariadne, group: Group, message: MessageChain = DetectPrefix("!mbti_oneword")):
+async def mbti_oneword(app: Ariadne, event: GroupMessage, group: Group,
+                       message: MessageChain = DetectPrefix("!mbti_oneword")):
     if str(message) != "":
         has_word = False
         for word in words:
@@ -31,16 +33,28 @@ async def mbti_oneword(app: Ariadne, group: Group, message: MessageChain = Detec
                 has_word = True
                 await app.send_message(
                     group,
-                    word.strip()
+                    MessageChain([
+                        At(event.sender),
+                        Plain("\n"),
+                        Plain(word.strip())
+                    ])
                 )
                 break
         if not has_word:
             await app.send_message(
                 group,
-                "找不到该MBTI类型！"
+                MessageChain([
+                    At(event.sender),
+                    Plain("\n"),
+                    Plain("找不到该MBTI类型！")
+                ])
             )
     else:
         await app.send_message(
             group,
-            words[random.randrange(0, len(words))].strip()
+            MessageChain([
+                At(event.sender),
+                Plain("\n"),
+                Plain(words[random.randrange(0, len(words))].strip())
+            ])
         )
