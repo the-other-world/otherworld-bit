@@ -3,6 +3,7 @@ from textwrap import dedent
 from graia.amnesia.message import MessageChain
 from graia.ariadne import Ariadne
 from graia.ariadne.event.message import GroupMessage
+from graia.ariadne.message.element import At, Plain
 from graia.ariadne.message.parser.base import DetectPrefix
 from graia.ariadne.model import Group
 from graia.saya import Channel
@@ -13,7 +14,6 @@ channel = Channel[ChannelMeta].current()
 channel.meta['name'] = "九型人格"
 channel.meta['description'] = "各九型人格类型解说"
 channel.meta['author'] = "Abjust"
-
 
 enneagram_list = {
     # 1w9简介
@@ -27,8 +27,6 @@ enneagram_list = {
     然而，与“改革者”不同的是，如果九号翼型人需要更加明显的外向性，他们可能会很难坚持自己的原则，这可能会导致他们显得冷漠或缺乏人情味。
     如果他们受到挑战或批评，因为 1w9 会试图避免冲突，这对他们来说也会很困难。
     这可能意味着“理想主义者”难以容忍消极情绪，有时可能会因为世界没有达到他们的高标准而感到沮丧。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-1w9
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 1w2简介
     "1w2": """\
@@ -41,8 +39,6 @@ enneagram_list = {
     然而，与“改革者”不同的是，如果有可能给他人带来不便或不安，双翼型人可能会很难坚持自己的原则。
     如果他们的个人原则与他们的同理心相冲突，这对他们来说可能会很困难。
     这可能意味着“倡导者”因道德困境而难以通过内部冲突采取果断行动。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-1w2
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 2w1简介
     "2w1": """\
@@ -54,8 +50,6 @@ enneagram_list = {
     然而，与“帮助者”不同的是，当时代变得艰难和不和谐时，一翼可能会挣扎并变得没有安全感。
     在这些时刻，他们会寻求他人的赞扬来安抚自己，并且当他们试图安抚他人的需求时，可能会失去自己的个人需求。
     这可能意味着“同伴”很难在困难的情况下提供最有用的建议，而不是其他人可能想听到的建议。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-2w1
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 2w3简介
     "2w3": """\
@@ -68,8 +62,6 @@ enneagram_list = {
     因此，类型 2w3 被称为“东道主”。
     然而，与“帮助者”不同的是，三号翼型人可能会挣扎并变得不安全，因为他们不断需要被视为不仅有爱心和乐于助人，而且有能力和追求成就。
     这种无休止地寻求他人的赞扬和认可会让核心的第二型人变得更加困难，使他们变得非常专横，在最坏的情况下也让人讨人喜欢。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-2w3
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 3w2简介
     "3w2": """\
@@ -82,8 +74,6 @@ enneagram_list = {
     然而，与“成就者”不同的是，两翼型人可能会挣扎并拼命地试图让别人喜欢他们。
     在这些时刻，他们会寻求他人的赞扬来安抚自己，并且当他们试图给别人留下深刻印象时，可能会失去自己的个人需求。
     这可能意味着“魅力者”很难不不断地炫耀和制造场面——即使很明显这在群体动态中并不需要。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-3w2
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 3w4简介
     "3w4": """\
@@ -96,8 +86,6 @@ enneagram_list = {
     然而，与“成就者”不同，四翼型人可能更容易受到伤害，因为他们公开表达自己，而且他们可能更内向。
     他们会提出自己的意见或表达自己的才能和想法，即使是在没有正当理由或寻求的时刻，并且可能会在此过程中失去他人的同情或钦佩。
     这可能意味着“专业人士”很难不不断地炫耀和制造场面——即使很明显这在群体动态中并不需要。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-3w4
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 4w3简介
     "4w3": """\
@@ -108,8 +96,6 @@ enneagram_list = {
     由于他们能够在表现出不寻常甚至古怪的形象的同时取得高度成功，4w3 型被称为“贵族”。 
     然而，与“个人主义者”不同的是，4w3 可能会觉得他们为了通过捏造的形象获得成功，已经损害了核心类型所渴望的真实性。
     第四型人的内在匮乏感与第三型人光鲜亮丽的外表之间的紧张关系会造成深刻的认知失调，从而加剧第四型人固有的羞耻感和无价值感。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-4w3
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 4w5简介
     "4w5": """\
@@ -119,8 +105,6 @@ enneagram_list = {
     4w5 乐于保守自己和自己的内部对话，这常常给人冷漠、古怪或前卫的印象。因此，4w5 被称为“波西米亚人”。
     与核心第四型“浪漫者”或4w3“贵族”不同，4w5更有可能停止追求理想并陷入虚无主义的失败主义。
     他们可能对被理解和接受感到绝望，因此退缩到自己的世界里，尽管表面下情绪复杂，但看上去几乎是坚忍的。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-4w5
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 5w4简介
     "5w4": """\
@@ -131,8 +115,6 @@ enneagram_list = {
     九型人格 5w4 类型的人像第五型人一样是出色的观察者和研究人员，但他们往往更具想象力和内省力，具有艺术或深奥的兴趣。
     这些孤独的创意者重视他们的个人隐私，很少关心社会对他们的看法。
     一些最伟大的文学作品和哲学见解都是由 5w4 完成的，但他们的沉默却常常阻碍他们与世界分享自己的贡献。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-5w4
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 5w6简介
     "5w6": """\
@@ -142,8 +124,6 @@ enneagram_list = {
     5w6 往往比其他五型人更具协作性，尽管他们担心让团队失望的基本恐惧常常使他们无法担任领导角色。
     这是最善于观察、最有条理、最善于分析的类型。
     5w6 人对任何情况都会采取冷静、理性的态度，他们热切地解决具有挑战性的问题，经常整合大多数人会忽视的重要细节（想想福尔摩斯）。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-5w6
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 6w5简介
     "6w5": """\
@@ -155,8 +135,6 @@ enneagram_list = {
     结果，他们可能会低估自己的优势。
     许多著名的政治家和社会活动家都是具有五号侧翼的第六型人，其中一些人掌握着巨大的政治权力。
     尽管 6w5 在扩大弱势群体的权利方面取得了很大成就，但 6w5 领导人往往会采取严厉手段进行统治，因为他们倾向于夸大他们视为敌人的力量。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-6w5
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 6w7简介
     "6w7": """\
@@ -169,8 +147,6 @@ enneagram_list = {
     因此，九型人格 6w7 类型的人可能会表面上表达赞扬和渴望与人交朋友，但内心却对同事的动机感到怀疑和怀疑。
     任何第六型人的信任都是来之不易的，但一旦建立了情感纽带，6w7 型人就会以多种方式表达他们的忠诚，并且他们通常会要求经常保证他们的忠诚得到回报。
     这些类型的人相信友谊应该天长地久，当一段关系走到尽头时，一个好朋友可能很难接受事实。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-6w7
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 7w6简介
     "7w6": """\
@@ -184,8 +160,6 @@ enneagram_list = {
     这里面有一些疯狂和强迫的东西。艺人的笑容渐渐淡去，但没有动摇。
     当他们真的崩溃时，他们会陷入强烈的幻灭之中。
     没过多久，一些轻微的光芒就引起了他们的兴趣，他们重建了自己的世界，充满了有趣的乐趣，充满了朋友的娱乐。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-7w6
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 7w8简介
     "7w8": """\
@@ -198,8 +172,6 @@ enneagram_list = {
     他们不太关心别人的想法，尽管他们并不反对吸引那些欣赏他们无忧无虑的方式的人的注意。
     在决心实现目标的过程中，第七型人很容易合理化伤害他们认为阻碍他们的人。
     7w8 型人善于转移自己的注意力，不去后悔，但痛苦最终会追上他们——包括他们自己的痛苦，以及可能因阻碍他们而遭受痛苦的朋友、仰慕者和亲人的痛苦。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-7w8
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 8w7简介
     "8w7": """\
@@ -213,8 +185,6 @@ enneagram_list = {
     他们渴望在世界上留下自己的印记，常常成为杰出的企业家、企业高管和政治领袖。
     有时，他们为了赢得忠诚和尊重而夸大外部威胁并做出超出其能力的承诺，从而陷入麻烦。
     九型人格的 8w7 往往比其他第八型人更冲动、更具对抗性和攻击性，后者具有其他邻居第九型人的特征。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-8w7
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 8w9简介
     "8w9": """\
@@ -228,8 +198,6 @@ enneagram_list = {
     他们更喜欢在幕后指挥自己的事务，并且更容易出现被动的攻击行为。
     这种翼型不像其他八型翼型那么容易表现出令人生畏的愤怒。
     在极少数情况下，8w9 会发脾气，爆炸会更加突然、壮观和短暂。
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-8w9
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 9w8简介
     "9w8": """\
@@ -244,8 +212,6 @@ enneagram_list = {
     凭借机翼引导，9w8 型更加自信、大胆和激励。
     他们仍在不断地寻求与世界的和平与和谐，但为了实现这一目标，他们更加努力。
     “你的团队的指导使你能够鼓励其他人，特别是那些工作没有得到足够赞扬的弱势群体。”
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-9w8
-    （注：如翻译质量不佳，请及时反映）
     """,
     # 9w1简介
     "9w1": """\
@@ -262,8 +228,6 @@ enneagram_list = {
     九型人格的 9w1 往往比其他第九型人格的人具有更高的是非意识。
     9w1 与其核心第九型和平缔造者的许多特征相似，但在第一型的影响下，他们将自己更多地投入到世界中，以帮助更多的人并在整体上变得更好，尽管他们仍然害怕冲突。
     “受到一号侧翼的影响，九翼会出于道德考虑而进行谈判。”
-    节选并翻译自 https://www.personalitydata.org/enneagram/type-9w1
-    （注：如翻译质量不佳，请及时反映）
     """
 }
 
@@ -274,16 +238,28 @@ enneagram_list = {
         decorators=[DetectPrefix("!egram")]
     )
 )
-async def enneagram(app: Ariadne, group: Group, message: MessageChain = DetectPrefix("!egram")):
+async def enneagram(app: Ariadne, group: Group, event: GroupMessage, message: MessageChain = DetectPrefix("!egram")):
     if str(message) != "":
         await app.send_message(
             group,
-            dedent(
-                enneagram_list.get(
-                    str(message).strip().lower(),
-                    "找不到关于该九型人格类型的解释！"
-                )
-            )
+            MessageChain([
+                At(event.sender),
+                Plain("\n"),
+                Plain(dedent(
+                    enneagram_list.get(
+                        str(message).strip().lower(),
+                        "找不到关于该九型人格类型的解释！请检查您的输入是否有误！"
+                    )
+                )),
+                Plain(f"节选并翻译自 https://www.personalitydata.org/enneagram/type-{str(message).strip().lower()}\n"
+                      "（注：如翻译质量不佳，请及时反映）"
+                      if str(message).strip().lower() in enneagram_list else "")
+            ])
         )
     else:
-        await app.send_message(group, "输入!egram <类型>可查看关于该九型人格的解释！")
+        await app.send_message(group,
+                               MessageChain([
+                                   At(event.sender),
+                                   Plain("\n"),
+                                   Plain("输入!egram <人格类型>可查看关于该九型人格的解释！")
+                               ]))
