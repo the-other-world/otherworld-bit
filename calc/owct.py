@@ -9,7 +9,7 @@ def get_time():
     month = floor(((days_elapsed - year * 256) / 32))
     week = floor(((days_elapsed - year * 256) / 8))
     day = floor((days_elapsed - year * 256 - month * 32))
-    dayinweek = days_elapsed % 8
+    dayinweek = (days_elapsed + 1) % 8
     remaining_milliseconds = owts % 524288000
     hour = floor((remaining_milliseconds / 1000) / 16384)
     minute = floor(((remaining_milliseconds / 1000) - hour * 16384) / 128)
