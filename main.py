@@ -56,6 +56,7 @@ else:
             elif split[0] == "verify_key":
                 verifykey = split[1].strip()
 
+
 # 启动机器人程序
 saya = create(Saya)
 app = Ariadne(

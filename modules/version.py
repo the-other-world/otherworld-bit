@@ -26,8 +26,8 @@ async def version(app: Ariadne, event: GroupMessage, group: Group):
         MessageChain([
             At(event.sender),
             Plain("\n"),
-            Plain("机器人版本：OtherWorldBit 1.0.10\n"
+            Plain("机器人版本：OtherWorldBit 1.0.11\n"
                   "上次更新日期：2023/10/22\n"
-                  "更新内容：新增Tritype解释，优化代码，优化如来功能")
+                  "更新内容：实现OWCLv2和OWCTv5")
         ])
     )

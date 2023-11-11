@@ -1,5 +1,7 @@
+from graia.amnesia.message import MessageChain
 from graia.ariadne.app import Ariadne
 from graia.ariadne.event.message import GroupMessage
+from graia.ariadne.message.element import At, Plain
 from graia.ariadne.message.parser.base import MatchContent
 from graia.ariadne.model import Group
 from graia.saya import Channel
@@ -12,9 +14,9 @@ import json
 channel = Channel[ChannelMeta].current()
 channel.meta['name'] = "CloudFlare状态检测"
 channel.meta['description'] = "CloudFlare Status Checker"
-channel.meta['author'] = "ltzXiaoYanMo"
+channel.meta['author'] = "Abjust, ltzXiaoYanMo"
 
-web =
+api = "https://www.cloudflarestatus.com/api/v2/status.json"
 
 
 @channel.use(
@@ -23,8 +25,12 @@ web =
         decorators=[MatchContent("!cfstatus")]
     )
 )
-async def status(app: Ariadne, group: Group):
+async def cloudflare_status(app: Ariadne, event: GroupMessage, group: Group):
     await app.send_message(
         group,
-        requests.get(json.loads(requests.get(CloudStatus).text)['components'][0]['name']).text
+        MessageChain([
+            At(event.sender),
+            Plain("\n"),
+            Plain(json.loads(requests.get(api).text)['status']['description'])
+        ])
     )

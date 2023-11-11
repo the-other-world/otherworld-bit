@@ -1,18 +1,18 @@
 import json
 import random
-from datetime import datetime, timezone
+from datetime import datetime
 
 import numpy as np
 
 import calc.owct
 
 BASELINE_TEMP = 15
-GREENHOUSE_INDEX = 1 + (datetime.utcnow().year - 1906) * 0.0005 if datetime.utcnow().year < 2100 else 1.097
+GREENHOUSE_INDEX = 1 + (datetime.utcnow().year - 2930) * 0.0005 if datetime.utcnow().year < 3124 else 1.097
 SEASONS = [
-    [3, 4, 5],
-    [6, 7, 8],
-    [9, 10, 11],
-    [12, 1, 2]
+    [3, 4],
+    [5, 6],
+    [7, 8],
+    [1, 2]
 ]
 TEMP_COEFFICIENT = [1.2, 2.0, 1.0, -0.4]
 STD_DEVIATION = 5
@@ -22,32 +22,31 @@ HOUR_FLUCTUATION = 0.5
 
 def get_temp():
     now = calc.owct.get_time()
-    utcnow = datetime.now(timezone.utc)
     print(now)
     for season in SEASONS:
-        if now.month in season:
-            avg_temp = round(BASELINE_TEMP * GREENHOUSE_INDEX * TEMP_COEFFICIENT[SEASONS.index(season)], 2)
+        if now["months"] in season:
+            avg_temp = BASELINE_TEMP * GREENHOUSE_INDEX * TEMP_COEFFICIENT[SEASONS.index(season)]
             day_temp = random.uniform(avg_temp - STD_DEVIATION, avg_temp + STD_DEVIATION)
             f = open('data.json')
             data = json.load(f)
-            if np.floor(utcnow.timestamp()) - data["collected_at"] >= 86400:
-                data["collected_at"] = np.floor(utcnow.timestamp()) - (np.floor(utcnow.timestamp()) % 86400)
-                data["cycle_0"] = np.floor(utcnow.timestamp()) - (np.floor(utcnow.timestamp()) % 86400) + 28800
-                data["day_temp"] = day_temp
+            if np.floor(now["timestamp"]) - data["collected_at"] >= 524288000:
+                data["collected_at"] = np.floor(now["timestamp"]) - (np.floor(now["timestamp"]) % 524288000)
+                data["cycle_0"] = np.floor(now["timestamp"]) - (np.floor(now["timestamp"]) % 524288000) + 131072000
+                data["day_temp"] = round(day_temp, 2)
                 if data["day_temp"] + np.max(HOUR_OFFSET) >= 35:
                     data["high_temp_days"] += 1
                 else:
                     data["high_temp_days"] = 0
-            if np.floor(utcnow.timestamp()) - data["cycle_now"] >= 3600:
-                current_cycle = int(np.floor((now.hour - 8) / 3))
-                data["cycle_now"] = np.floor(utcnow.timestamp() - (np.floor(utcnow.timestamp()) % 3600))
-                data["cycle_temp"] = data["day_temp"] + (
+            if np.floor(now["timestamp"]) - data["cycle_now"] >= 16384000:
+                current_cycle = int(np.floor((now["hours"] - 8) / 4))
+                data["cycle_now"] = np.floor(now["timestamp"] - (np.floor(now["timestamp"]) % 16384000))
+                data["cycle_temp"] = round(data["day_temp"] + (
                         random.uniform(0.8, 1.2) * HOUR_OFFSET[current_cycle]) + random.uniform(
-                    0 - HOUR_FLUCTUATION, HOUR_FLUCTUATION)
+                    0 - HOUR_FLUCTUATION, HOUR_FLUCTUATION), 2)
             jobj = json.dumps(data, indent=4)
             with open("data.json", "w") as outfile:
                 outfile.write(jobj)
-            return np.round(data["cycle_temp"], 2)
+            return data["cycle_temp"]
 
 
 def get_warn():

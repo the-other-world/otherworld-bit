@@ -28,7 +28,6 @@ channel.meta['author'] = "Abjust"
 )
 async def planet_info(app: Ariadne, event: GroupMessage, group: Group):
     now = owct.get_time()
-    utcnow = datetime.now(timezone.utc)
     now_temp = temp.get_temp()
     await app.send_message(group,
                            MessageChain([
@@ -37,7 +36,7 @@ async def planet_info(app: Ariadne, event: GroupMessage, group: Group):
                                Plain(dedent(f"""\
                                OtherWorldBit
                                异世界气象信息
-                               现在是：{utcnow.year + 1024}/{utcnow.month}/{utcnow.day} {now.hour}:{now.minute:02d}
+                               现在是：{now["years"]}/{now["months"]}/{now["days"]} {now["hours"]}:{now["minutes"]:02d}
                                预警：{calc.temp.get_warn()}
                                天气：undefined
                                气温：{now_temp} ℃
