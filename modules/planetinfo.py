@@ -1,4 +1,3 @@
-from datetime import datetime, timezone
 from textwrap import dedent
 
 from graia.amnesia.message import MessageChain
@@ -11,8 +10,7 @@ from graia.saya import Channel
 from graia.saya.builtins.broadcast.schema import ListenerSchema
 from graia.saya.channel import ChannelMeta
 
-import calc.temp
-from calc import owct, temp
+from calc import owct, weather
 
 channel = Channel[ChannelMeta].current()
 channel.meta['name'] = "天体信息"
@@ -28,7 +26,7 @@ channel.meta['author'] = "Abjust"
 )
 async def planet_info(app: Ariadne, event: GroupMessage, group: Group):
     now = owct.get_time()
-    now_temp = temp.get_temp()
+    now_weather = weather.get_weather()
     await app.send_message(group,
                            MessageChain([
                                At(event.sender),
@@ -37,12 +35,14 @@ async def planet_info(app: Ariadne, event: GroupMessage, group: Group):
                                OtherWorldBit
                                异世界气象信息
                                现在是：{now["years"]}/{now["months"]}/{now["days"]} {now["hours"]}:{now["minutes"]:02d}
-                               预警：{calc.temp.get_warn()}
-                               天气：undefined
-                               气温：{now_temp} ℃
-                               空气质量：undefined
-                               湿度：undefined %
-                               风：undefined风 undefined级
+                               预警：{now_weather["warnings"]}
+                               天气：{now_weather["weather"]}
+                               降水概率：{round(now_weather["preci_chance"] * 100)} %
+                               降水量：{now_weather["precipitation"]} mm
+                               气温：{now_weather["temp"]} ℃
+                               湿度：{round(now_weather["hum"] * 100)} %
+                               风：{now_weather["wind_direction"]}风
+                               {now_weather["wind_scale"]}级（{now_weather["wind_speed"]} m/s）
                                气压：undefined hPa
                                """))
                            ]))

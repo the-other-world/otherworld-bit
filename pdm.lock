@@ -3,10 +3,9 @@
 
 [metadata]
 groups = ["default"]
-cross_platform = true
-static_urls = false
-lock_version = "4.3"
-content_hash = "sha256:be60e36eafeb69a141c3e933686d8255c8f880b7b7c6a41ddc3d198296e147cc"
+strategy = ["cross_platform"]
+lock_version = "4.4"
+content_hash = "sha256:8ba6f46b3b750fd80cfac996b7ab97cdc0e7504c4ebbbb544243b092fb7b5d3c"
 
 [[package]]
 name = "aiohttp"
@@ -393,6 +392,14 @@ files = [
 ]
 
 [[package]]
+name = "owtime"
+version = "5.2.2.3"
+requires_python = ">=3.6"
+git = "https://github.com/the-other-world/owtime-py.git"
+revision = "44fb749891bc49765f00f8329408c396d36a6694"
+summary = "Python 库 - OWTime 的时间处理工具"
+
+[[package]]
 name = "packaging"
 version = "23.1"
 requires_python = ">=3.7"
@@ -467,6 +474,15 @@ dependencies = [
 files = [
     {file = "python-dateutil-2.8.2.tar.gz", hash = "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86"},
     {file = "python_dateutil-2.8.2-py2.py3-none-any.whl", hash = "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"},
+]
+
+[[package]]
+name = "pytz"
+version = "2023.3.post1"
+summary = "World timezone definitions, modern and historical"
+files = [
+    {file = "pytz-2023.3.post1-py2.py3-none-any.whl", hash = "sha256:ce42d816b81b68506614c11e8937d3aa9e41007ceb50bfdcb0749b921bf646c7"},
+    {file = "pytz-2023.3.post1.tar.gz", hash = "sha256:7b4fddbeb94a1eba4b557da24f19fdf9db575192544270a9101d8509f9f43d7b"},
 ]
 
 [[package]]

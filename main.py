@@ -1,5 +1,4 @@
 # OtherWorldBit，异世界天体气象监测机器人
-
 # Copyright(C) 2023 Abjust 版权所有。
 
 # 本程序是自由软件：你可以根据自由软件基金会发布的GNU Affero通用公共许可证的条款，即许可证的第3版或（您选择的）任何后来的版本重新发布它和/或修改它。
@@ -22,19 +21,31 @@ from graia.ariadne.connection.config import (
 from graia.saya import Saya
 from loguru import logger
 
+import calc.weather
 import globalvars
 
 # 初始化
 verifykey = ""
 if not os.path.exists("data.json"):
     obj = {
-        "collected_at": 946656000,
+        "collected_at": 0,
+        "cycle_0": 0,
+        "cycle_now": 0,
+        "weather": 0,
+        "weather_until": 0,
         "high_temp_days": 0,
         "day_temp": 0.00,
-        "day_hum": 0.00,
-        "cycle_0": 946656000,
-        "cycle_now": 946656000,
-        "cycle_temp": 0.00
+        "cycle_hum": 0.00,
+        "cycle_temp": 0.00,
+        "temp_multi": 0.00,
+        "fluctuation": 0.00,
+        "last_preci": 0,
+        "preci_chance": 0,
+        "preci_level": 0,
+        "precipitation": 0,
+        "wind_scale": 0,
+        "wind_speed": 0,
+        "wind_direction": 0
     }
     jobj = json.dumps(obj, indent=4)
     with open("data.json", "w") as outfile:
@@ -56,6 +67,7 @@ else:
             elif split[0] == "verify_key":
                 verifykey = split[1].strip()
 
+print(calc.weather.get_weather())
 
 # 启动机器人程序
 saya = create(Saya)

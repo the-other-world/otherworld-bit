@@ -15,7 +15,7 @@ channel.meta['name'] = "mbti一言"
 channel.meta['description'] = "mbti一言"
 channel.meta['author'] = "ltzXiaoYanMo"
 
-words = open('./data/oneword.txt', encoding='utf-8').readlines()
+words = open('oneword.txt', encoding='utf-8').readlines()
 
 
 @channel.use(
